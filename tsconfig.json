@@ -70,5 +70,6 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "strictPropertyInitialization": false
-  }
+  },
+  "exclude": ["__tests__", "__mocks__"]
 }
