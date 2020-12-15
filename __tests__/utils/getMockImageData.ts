@@ -1,5 +1,6 @@
 import fs from "fs";
-export const getMockImageData = async () => {
+
+const getMockImageData = async () => {
   const base64 = await fs.readFileSync("./__mocks__/example.png", {
     encoding: "base64",
   });
@@ -7,3 +8,4 @@ export const getMockImageData = async () => {
 
   return ("\\x" + buffer.toString("hex")) as any;
 };
+export default getMockImageData;

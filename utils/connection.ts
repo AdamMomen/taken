@@ -1,5 +1,4 @@
 import { createConnection, getConnection } from "typeorm";
-const connectionConfig = require("../orm.config.json");
 
 const connection = {
   async create() {

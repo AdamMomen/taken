@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import { Entity, getRepository } from "typeorm";
 import { Image } from "../src/entities/Image";
-import { getMockImageData } from "./utils";
+import getMockImageData from "./utils/getMockImageData";
 import connection from "./utils/connection";
 
 beforeEach(() => connection.create([(Image as unknown) as typeof Entity]));
