@@ -5,9 +5,9 @@ import puppeteer, {
 } from "puppeteer";
 import { createConnection } from "typeorm";
 import Image from "./entities/Image";
-const connectionConfig = require("../typeorm.config.json");
+import connection from "../utils/connection";
 const main = async () => {
-  const conn = await createConnection(connectionConfig);
+  connection.create();
   const url = "https://github.com/AdamMomen";
   // const browser = await puppeteer.launch({ headless: true });
   // const page = await browser.newPage();

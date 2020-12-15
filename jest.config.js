@@ -1,4 +1,5 @@
 module.exports = {
+  setupFilesAfterEnv: ["./setup.js"],
   clearMocks: true,
   maxWorkers: 1,
   preset: "ts-jest",
@@ -8,5 +9,6 @@ module.exports = {
     "!**/__tests__/coverage/**",
     "!**/__tests__/utils/**",
     "!**/__tests__/images/**",
+    "!**/.history/**",
   ],
 };

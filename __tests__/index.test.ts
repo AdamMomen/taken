@@ -1,27 +1,27 @@
-import connection from "./utils/connection";
-import Image from "../src/entities/Image";
+import "reflect-metadata";
+import { Entity, getRepository } from "typeorm";
+import { Image } from "../src/entities/Image";
 import { getMockImageData } from "./utils";
-beforeAll(async () => {
-  await connection.create();
-});
+import connection from "./utils/connection";
 
-afterAll(async () => {
-  await connection.close();
-});
+beforeEach(() => connection.create([(Image as unknown) as typeof Entity]));
 
-beforeEach(async () => {
-  await connection.clear();
-});
+afterEach(() => connection.close());
+
 describe("Saving an image", () => {
   it("creates a an image", async () => {
     const image = new Image();
     const url = "testwebsite.com";
+    const imageRepo = await getRepository(Image);
 
     image.url = url;
     image.createdAt = new Date();
-    image.data = await getMockImageData();
+    const buffer = await getMockImageData();
+    image.data = buffer;
 
-    await Image.save(image);
-    expect(await Image.findOne({ url })).toBeDefined();
+    await imageRepo.save(image);
+
+    const foundImage = await imageRepo.findOne({ url });
+    expect(foundImage!.url).toBe(url);
   });
 });

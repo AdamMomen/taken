@@ -1,0 +1,12 @@
+[{
+  "name": "default",
+  "type": "postgres",
+  "port": 5432,
+  "host": "localhost",
+  "username": "postgres",
+  "password": "Administrator98",
+  "database": "scraper",
+  "logging": true,
+  "synchronize": true,
+  "entities": ["**/entities/**/*.js"]
+}]

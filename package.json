@@ -6,7 +6,7 @@
   "author": "Adam <adammuman81@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "watch": "tsc ./src -w",
+    "watch": "tsc -w",
     "dev": "nodemon dist/index.js",
     "test": "jest"
   },
