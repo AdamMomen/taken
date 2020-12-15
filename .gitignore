@@ -107,3 +107,7 @@ dist
 .vscode
 
 .history
+
+.env
+
+typeorm.config.json

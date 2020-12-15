@@ -1,0 +1,5 @@
+Image Entity:
+1. id => primary key  & auto increment
+2. url => the website url of the photo : String
+3. createdAt: Date
+4. data => Buffer:base64
