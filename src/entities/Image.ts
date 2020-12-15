@@ -11,7 +11,7 @@ class Image extends BaseEntity {
   @Column()
   url: string;
 
-  @Column("blob", { nullable: true, name: "data" })
+  @Column({ name: "data", type: "bytea", nullable: false })
   data: Buffer;
 }
 export default Image;
