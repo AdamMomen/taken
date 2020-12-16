@@ -1,13 +1,22 @@
 import "reflect-metadata";
-import { Image } from "./entities/Image";
-import connection from "../utils/connection";
-import { Snapshot } from "./services/capturer";
+import express from "express";
+import loader from "./loaders";
+import config from "./config";
+import Logger from "./loaders/logger";
+const app = express();
 const main = async () => {
-  connection.create();
-  const url = "https://github.com/AdamMomen";
-  console.log(await Snapshot.capture(url, { type: "png" }));
-  console.log("Image saved");
-  console.log(await Image.findOne({ url }));
+  await loader({ expressApp: app });
+  app
+    .listen(config.port, () => {
+      Logger.info(`\n
+      ################################################
+      🛡️  Server listening on port: ${config.port} 🛡️
+      ################################################
+    `);
+    })
+    .on("error", (err) => {
+      Logger.error(err);
+    });
 };
 
-main().catch((err) => console.log(err));
+main().catch((err) => Logger.info(err));
