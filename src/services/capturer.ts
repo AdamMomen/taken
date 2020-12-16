@@ -1,12 +1,9 @@
 import puppeteer, {
-  Base64ScreenShotOptions,
   BinaryScreenShotOptions,
   DirectNavigationOptions,
-  NavigationOptions,
   Page,
-  ScreenshotOptions,
 } from "puppeteer";
-import convertStringToBuffer from "../../utils/convertStringToBuffer";
+import convertB64ToBuffer from "../../utils/convertB64ToBuffer";
 
 interface CapturerType {
   init: () => void;
@@ -15,10 +12,6 @@ interface CapturerType {
   createPage: () => Promise<Page>;
   convert2Byte: (buffer: Buffer) => Promise<Buffer | string>;
 }
-// interface CaptureOptions extends DirectNavigationOptions {}
-// interface NavigationOptions extends <DirectNavigationOptions bo BinaryScreenShotOptions> {
-//   waitsUntil: "networkidle2";
-// }
 export class Snapshot {
   static async createPage() {
     const browser = await puppeteer.launch({ headless: true });
@@ -34,10 +27,10 @@ export class Snapshot {
   }
 
   static async convert2Byte(buffer: Buffer) {
-    return await convertStringToBuffer(buffer);
+    return await convertB64ToBuffer(buffer);
   }
 
-  static async capture(url: string, options: ScreenshotOptions) {
+  static async capture(url: string, options: BinaryScreenShotOptions) {
     const page = await this.createPage();
     await this.goto(page, url, { waitUntil: "networkidle2" });
     const buffer = await page.screenshot(options);

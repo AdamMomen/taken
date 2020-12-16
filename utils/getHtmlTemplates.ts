@@ -1,4 +1,4 @@
-export default (imgString: string | Buffer) => {
+export const getImageTemplate = (imgString: string) => {
   if (!imgString) return "";
   return `<html style="height: 100%;"><head><style class="darkreader darkreader--fallback" media="screen"></style><style class="darkreader darkreader--text" media="screen"></style><style class="darkreader darkreader--invert" media="screen">.jfk-bubble.gtx-bubble, .captcheck_answer_label > input + img, embed[type="application/pdf"] {
     filter: invert(100%) hue-rotate(180deg) contrast(90%) !important;
@@ -226,5 +226,27 @@ select:-webkit-autofill {
 }
 ::placeholder {
     opacity: 0.5 !important;
-}</style><title>test_image.png (1088×556)</title></head><body style="margin: 0px; background: rgb(14, 14, 14); height: 100%; --darkreader-inline-bgimage: initial; --darkreader-inline-bgcolor:#0b0b0c;" data-darkreader-inline-bgimage="" data-darkreader-inline-bgcolor="" data-new-gr-c-s-check-loaded="14.987.0" data-gr-ext-installed="" class="vsc-initialized"><img style="-webkit-user-select: none;margin: auto;cursor: zoom-in;" src="data:image/png;base64,${imgString}" width="855" height="437"></body></html>`;
+}</style><title>test_image.png (1090×1080)</title></head><body style="margin: 0px; background: rgb(14, 14, 14); height: 100%; --darkreader-inline-bgimage: initial; --darkreader-inline-bgcolor:#0b0b0c;" data-darkreader-inline-bgimage="" data-darkreader-inline-bgcolor="" data-new-gr-c-s-check-loaded="14.987.0" data-gr-ext-installed="" class="vsc-initialized"><img style="-webkit-user-select: none;margin: auto;cursor: zoom-in;" src="data:image/png;base64,${imgString}" width="855" height="437"></body></html>`;
 };
+
+export const getFormTemplate = (host: string, endPoint: string) => `
+<html>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+<body>
+<div class="container mx-auto my-auto position-absolute">
+<h1>Take a screenshot of a website online </h1>
+    <Form class="form-horizontal" action="${host}${endPoint}" method="POST">
+        <div class="form-group mx-auto">
+            <label class="control-label col-sm-2" for="url">URL:</label>
+                <div class="col-sm-4">
+                    <input class="form-control" id="url" placeholder="Enter website">
+                </div>
+            </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+    </Form>
+</div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
+</html>
+`;

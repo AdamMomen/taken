@@ -1,4 +1,11 @@
-import { Application, Response, Request, NextFunction } from "express";
+import {
+  Application,
+  Response,
+  Request,
+  NextFunction,
+  urlencoded,
+  json,
+} from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import routes from "../api";
@@ -7,9 +14,10 @@ interface ExpressApp {
   app: Application;
 }
 export default ({ app }: ExpressApp) => {
+  app.use(urlencoded({ extended: true }));
+  app.use(json());
   app.enable("trust proxy");
   app.use(cors());
-  app.use(bodyParser.json());
 
   app.get("/status", (req: Request, res: Response) => {
     res.status(200).end();
