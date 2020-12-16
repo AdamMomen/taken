@@ -1,24 +1,16 @@
-import express from "express";
-import "reflect-metadata";
-import config from "./config";
-import loader from "./loaders";
-import Logger from "./loaders/logger";
-const app = express();
-
+import os from "os";
+import cluster from "cluster";
+import runApp from "./app";
 const main = async () => {
-  await loader({ expressApp: app });
+  if (cluster.isMaster) {
+    const cpuCount = os.cpus().length;
 
-  app
-    .listen(config.port, () => {
-      Logger.info(`\n
-      ################################################
-      🛡️  Server listening on port: ${config.port} 🛡️
-      ################################################
-    `);
-    })
-    .on("error", (err) => {
-      Logger.error(err);
-    });
+    for (let i = 0; i < cpuCount; i++) {
+      cluster.fork();
+    }
+  } else {
+    await runApp();
+  }
 };
 
-main().catch((err) => Logger.info(err));
+main().catch((err) => console.log(err));
