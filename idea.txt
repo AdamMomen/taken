@@ -3,3 +3,7 @@ Image Entity:
 2. url => the website url of the photo : String
 3. createdAt: Date
 4. data => Buffer:base64
+
+
+#  eaddd test to express server for testing coverage
+- use supertest
