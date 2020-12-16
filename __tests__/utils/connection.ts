@@ -1,19 +1,15 @@
-import {
-  createConnection,
-  createConnections,
-  getConnection,
-  Entity,
-} from "typeorm";
+import { createConnection, getConnection, Entity, BaseEntity } from "typeorm";
 const connectionConfig = require("../ormconfig.test.json");
 
 const connection = {
-  create(entities: typeof Entity[]) {
+  create(entities: typeof BaseEntity[]) {
     return createConnection({
+      name: "default",
       type: "postgres",
       host: "localhost",
       port: 5432,
       username: "postgres",
-      password: "Administrator98",
+      password: "administrator98",
       database: "test",
       entities,
     });

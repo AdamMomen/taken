@@ -5,6 +5,10 @@ import config from "./config";
 import Logger from "./loaders/logger";
 const app = express();
 
+/**
+ * Server Starter ⚙
+ * Intilize express server and loads up postgress connection
+ */
 export default async () => {
   await loader({ expressApp: app });
 

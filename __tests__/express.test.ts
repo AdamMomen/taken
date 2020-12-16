@@ -1,9 +1,7 @@
-import request from "supertest";
-import express from "express";
-import config from "../src/config";
-import routes from "../src/api";
-import { strict as assert } from "assert";
 import bodyParser from "body-parser";
+import express from "express";
+import request from "supertest";
+import routes from "../src/api";
 const app = express();
 
 beforeAll(() => {
@@ -21,7 +19,7 @@ describe("it should initialize express server ", () => {
 
   it("should fail on sending incorrect url as query param", (done) => {
     request(app)
-      .get("/image/capture?url=test.com")
+      .post("/image/capture")
       .expect(200)
       .expect("Content-Type", /json/)
       .then((res) => {

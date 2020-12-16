@@ -5,13 +5,6 @@ import puppeteer, {
 } from "puppeteer";
 import convertB64ToBuffer from "../../utils/convertB64ToBuffer";
 
-interface CapturerType {
-  init: () => void;
-  goto: () => void;
-  capture: (url: string) => Promise<string>;
-  createPage: () => Promise<Page>;
-  convert2Byte: (buffer: Buffer) => Promise<Buffer | string>;
-}
 export class Snapshot {
   static async createPage() {
     const browser = await puppeteer.launch({ headless: true });
