@@ -8,7 +8,7 @@ if (envFound.error) {
 }
 export default {
   port: parseInt(process.env.PORT as Number & string, 10),
-  logs: { level: process.env.LOG_LEVEL || "siliy" },
+  logs: { level: process.env.LOG_LEVEL || "debug" },
   api: {
     prefix: "/api",
   },

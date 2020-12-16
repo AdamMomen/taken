@@ -41,11 +41,8 @@ export class Snapshot {
     const page = await this.createPage();
     await this.goto(page, url, { waitUntil: "networkidle2" });
     const buffer = await page.screenshot(options);
-    if (!buffer) {
-      return null;
-    }
-    // const bytes = await this.convert2Byte(buffer);
+    const bytes = await this.convert2Byte(buffer);
 
-    return buffer;
+    return bytes;
   }
 }

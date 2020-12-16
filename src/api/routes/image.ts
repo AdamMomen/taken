@@ -1,5 +1,6 @@
 import { Router, Request, Response } from "express";
-import getHtmlTemplate from "../../../utils/getHtmlTemplate";
+// import getHtmlTemplate from "../../../utils/getHtmlTemplate";
+import { saveImage } from "../../services";
 import { Snapshot } from "../../services/capturer";
 const route = Router();
 export default (app: Router) => {
@@ -11,18 +12,27 @@ export default (app: Router) => {
       if (!url) {
         throw Error("should provide url");
       }
+
       const valid = /(https?|http?)([^\s]+)/g.test(url);
+
       if (!valid) {
         throw Error("Please send valid url, maybe missing http:// or https://");
       }
-      const bufferStr = await Snapshot.capture(url, {
-        encoding: "base64",
+
+      const bytesBuffer = await Snapshot.capture(url, {
+        encoding: "binary",
         omitBackground: true,
       });
-      if (!bufferStr) {
+
+      if (!bytesBuffer) {
         throw Error("something went wrong");
       }
-      res.send(getHtmlTemplate(bufferStr)).end();
+      const saved = await saveImage(url, bytesBuffer);
+      if (!saved) {
+        throw Error("something went wrong");
+      }
+      const imageId = saved.images[0].id;
+      res.json({ success: true, url: `localhost:5555/api/image/${imageId}` });
     } catch (e) {
       res.json({ success: false, message: e.message });
     }

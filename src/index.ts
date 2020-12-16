@@ -1,11 +1,13 @@
-import "reflect-metadata";
 import express from "express";
-import loader from "./loaders";
+import "reflect-metadata";
 import config from "./config";
+import loader from "./loaders";
 import Logger from "./loaders/logger";
 const app = express();
+
 const main = async () => {
   await loader({ expressApp: app });
+
   app
     .listen(config.port, () => {
       Logger.info(`\n
