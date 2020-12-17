@@ -18,10 +18,7 @@ export const options = {
 export default function () {
   // our HTTP request, note that we are saving the response to res, which can be accessed later
   const res = http.get("http://localhost:5555/status");
-  sleep(1);
   const checkRes = check(res, {
     "status is 200": (r) => r.status === 200,
-    //@ts-ignore
-    "response body": (r) => r.body.indexOf("Feel free to browse") !== -1,
   });
 }
