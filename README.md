@@ -1,6 +1,6 @@
 # website-screenshot-capturer
 
-This is a programming challenge for valiu's got talent hiring program in 48 hours
+This is a senior backend challenge for valiu's got talent hiring program in 48 hours
 
 ## Technologies Used
 
@@ -28,11 +28,12 @@ yarn start
 
 
 # Deployment Start: Cluster
-
 npm run start:cluster
 #or
 yarn start:cluster
 ```
+
+- add typeorm.config.json file in the project directory wtih your
 
 ### How?
 
