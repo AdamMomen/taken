@@ -60,7 +60,7 @@ export const findWebisteByUrl = async (url: string) => {
  */
 export const findImageById = async (id: string) => {
   try {
-    return await Image.find({ where: { id }, take: 1 });
+    return await Image.find({ relations: ["website"], where: { id }, take: 1 });
   } catch (e) {
     console.log(e);
   }
@@ -72,11 +72,13 @@ export const findImageById = async (id: string) => {
  * creates html template for the image
  */
 export const createImageTemplate = async (id: string) => {
+  console.log("it has been called");
   const found = await findImageById(id);
   if (found![0]) {
     const buffer = found![0].data;
+    const websiteUrl = found![0].website.url;
     const base64String = await convertBufferToB64(buffer);
-    return getImageTemplate(base64String);
+    return getImageTemplate(base64String, websiteUrl);
   }
   return;
 };

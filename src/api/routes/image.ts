@@ -2,6 +2,7 @@ import { Request, Response, Router } from "express";
 import config from "../../config";
 import { createImageTemplate, saveImage } from "../../services";
 import { Snapshot } from "../../services/capturer";
+import { BinaryScreenShotOptions } from "puppeteer";
 const route = Router();
 
 export default (app: Router) => {
@@ -17,7 +18,7 @@ export default (app: Router) => {
   route.post("/capture", async (req: Request, res: Response) => {
     try {
       /** get the website url from request body **/
-      const { url } = req.body;
+      const { url, captureOptions } = req.body;
 
       /** if the url is not provided throw an error **/
       if (!url) {
@@ -37,10 +38,7 @@ export default (app: Router) => {
       /**
        * Takes url string and takes a screenshot of that website
        */
-      const binaryBuffer: Buffer = await Snapshot.capture(url, {
-        encoding: "binary",
-        omitBackground: true,
-      });
+      const binaryBuffer: Buffer = await Snapshot.capture(url, captureOptions);
 
       /** Throws an error if we don't get the image buffer */
       if (!binaryBuffer) {
@@ -83,24 +81,28 @@ export default (app: Router) => {
    * @returns HTML content of the image.
    */
   route.get("", async (req, res) => {
-    const imageId = String(req.query.id);
+    try {
+      const imageId = String(req.query.id);
 
-    if (!imageId) {
-      return res.status(204).send("Nothing to show");
+      if (!imageId) {
+        return res.status(204).send("Nothing to show");
+      }
+      /**
+       * @function createImageTemplate
+       * @param imageId  string
+       * Takes the imageId and looks it in the database if found, it will convert it to base64 image data and parse in html content
+       */
+      const imageTemplate = await createImageTemplate(imageId);
+
+      /** Throws an errro if we couldn't find the image or there is a problme in the conversion to base64 string */
+      if (!imageTemplate) {
+        res.status(404).send("image url not found! :(");
+      }
+
+      /** send the html image template to the user **/
+      res.send(imageTemplate);
+    } catch (e) {
+      console.log(e);
     }
-    /**
-     * @function createImageTemplate
-     * @param imageId  string
-     * Takes the imageId and looks it in the database if found, it will convert it to base64 image data and parse in html content
-     */
-    const imageTemplate = await createImageTemplate(imageId);
-
-    /** Throws an errro if we couldn't find the image or there is a problme in the conversion to base64 string */
-    if (!imageTemplate) {
-      res.status(404).send("image url not found! :(");
-    }
-
-    /** send the html image template to the user **/
-    res.send(imageTemplate);
   });
 };

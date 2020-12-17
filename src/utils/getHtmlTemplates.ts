@@ -4,8 +4,7 @@
  * @takes base64 image data
  * @returns parsed html string
  */
-export const getImageTemplate = (imgString: string) => {
-  if (!imgString) return "";
+export const getImageTemplate = (imgString: string, website: string) => {
   return `<html style="height: 100%;"><head><style class="darkreader darkreader--fallback" media="screen"></style><style class="darkreader darkreader--text" media="screen"></style><style class="darkreader darkreader--invert" media="screen">.jfk-bubble.gtx-bubble, .captcheck_answer_label > input + img, embed[type="application/pdf"] {
     filter: invert(100%) hue-rotate(180deg) contrast(90%) !important;
 }</style><style class="darkreader darkreader--inline" media="screen">[data-darkreader-inline-bgcolor] {
@@ -232,7 +231,10 @@ select:-webkit-autofill {
 }
 ::placeholder {
     opacity: 0.5 !important;
-}</style><title>test_image.png (1090×1080)</title></head><body style="margin: 0px; background: rgb(14, 14, 14); height: 100%; --darkreader-inline-bgimage: initial; --darkreader-inline-bgcolor:#0b0b0c;" data-darkreader-inline-bgimage="" data-darkreader-inline-bgcolor="" data-new-gr-c-s-check-loaded="14.987.0" data-gr-ext-installed="" class="vsc-initialized"><img style="-webkit-user-select: none;margin: auto;cursor: zoom-in;" src="data:image/png;base64,${imgString}" width="855" height="437"></body></html>`;
+}</style><title>${website}</title></head><body style="margin: autopx; background: rgb(14, 14, 14); height: 100%; --darkreader-inline-bgimage: initial; --darkreader-inline-bgcolor:#0b0b0c;" data-darkreader-inline-bgimage="" data-darkreader-inline-bgcolor="" data-new-gr-c-s-check-loaded="14.987.0" data-gr-ext-installed="" class="vsc-initialized">
+<img style="-webkit-user-select: none;margin: auto;cursor: zoom-in;" src="data:image/png;base64,${imgString}" width="100%" height="100%">
+</body>
+</html>`;
 };
 
 export const getFormTemplate = (host: string, endPoint: string) => `
