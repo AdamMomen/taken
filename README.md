@@ -33,7 +33,7 @@ npm run start:cluster
 yarn start:cluster
 ```
 
-- add typeorm.config.json file in the project directory wtih your
+- change connection settings in `typeorm.config.json` file located in root project directory
 
 ### How?
 
