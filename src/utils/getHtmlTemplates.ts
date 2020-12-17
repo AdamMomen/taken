@@ -1,3 +1,9 @@
+/**
+ * @param imgString
+ * Creates image HTML template for displaying the image on the browser
+ * @takes base64 image data
+ * @returns parsed html string
+ */
 export const getImageTemplate = (imgString: string) => {
   if (!imgString) return "";
   return `<html style="height: 100%;"><head><style class="darkreader darkreader--fallback" media="screen"></style><style class="darkreader darkreader--text" media="screen"></style><style class="darkreader darkreader--invert" media="screen">.jfk-bubble.gtx-bubble, .captcheck_answer_label > input + img, embed[type="application/pdf"] {

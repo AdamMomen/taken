@@ -1,6 +1,8 @@
-import "reflect-metadata";
-import connection from "../../utils/connection";
+import connection from "../utils/connection";
 
+/**
+ * creates typeorm connection to postgres database
+ */
 export default async () => {
   return await connection.create();
 };

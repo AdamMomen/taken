@@ -1,14 +1,23 @@
 import { createConnection, getConnection } from "typeorm";
 
 const connection = {
+  /**
+   * creates Connection
+   */
   async create() {
     await createConnection();
   },
 
+  /**
+   * Closes Connection
+   */
   async close() {
     await getConnection().close();
   },
 
+  /**
+   * It deletes all the tables from the database
+   */
   async clear() {
     const connection = getConnection();
     const entities = connection.entityMetadatas;

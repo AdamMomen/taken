@@ -12,4 +12,5 @@ export default {
   api: {
     prefix: "/api",
   },
+  hostname: process.env.HOSTNAME || "localhost:5555",
 };

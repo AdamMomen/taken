@@ -5,8 +5,12 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
-
 import { Image } from "./Image";
+
+/**
+ * @Entity Website
+ * Database entity
+ */
 @Entity()
 export class Website extends BaseEntity {
   @PrimaryGeneratedColumn()

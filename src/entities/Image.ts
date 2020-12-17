@@ -7,6 +7,10 @@ import {
 } from "typeorm";
 import { Website } from "./Website";
 
+/**
+ * @Entity Image
+ * Database Entity
+ */
 @Entity()
 export class Image extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
