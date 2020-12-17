@@ -5,8 +5,12 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
-
 import { Image } from "./Image";
+
+/**
+ * @Entity Website
+ * Database entity
+ */
 @Entity()
 export class Website extends BaseEntity {
   @PrimaryGeneratedColumn()
@@ -15,6 +19,6 @@ export class Website extends BaseEntity {
   @Column()
   url: string;
 
-  @OneToMany(() => Image, (image) => image.website, { nullable: false })
+  @OneToMany(() => Image, (images) => images.website, { nullable: false })
   images: Image[];
 }

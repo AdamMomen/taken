@@ -231,10 +231,7 @@ select:-webkit-autofill {
 }
 ::placeholder {
     opacity: 0.5 !important;
-}</style><title>${website}</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
-</head><body style="margin: autopx; background: rgb(14, 14, 14); height: 100%; --darkreader-inline-bgimage: initial; --darkreader-inline-bgcolor:#0b0b0c;" data-darkreader-inline-bgimage="" data-darkreader-inline-bgcolor="" data-new-gr-c-s-check-loaded="14.987.0" data-gr-ext-installed="" class="vsc-initialized">
+}</style><title>${website}</title></head><body style="margin: autopx; background: rgb(14, 14, 14); height: 100%; --darkreader-inline-bgimage: initial; --darkreader-inline-bgcolor:#0b0b0c;" data-darkreader-inline-bgimage="" data-darkreader-inline-bgcolor="" data-new-gr-c-s-check-loaded="14.987.0" data-gr-ext-installed="" class="vsc-initialized">
 <img style="-webkit-user-select: none;margin: auto;cursor: zoom-in;" src="data:image/png;base64,${imgString}" width="100%" height="100%">
 </body>
 </html>`;

@@ -7,8 +7,11 @@
   "license": "MIT",
   "scripts": {
     "watch": "tsc -w",
-    "dev": "nodemon dist/src/index.js",
-    "test": "jest --forceExit"
+    "dev:start": "nodemon dist/src/app.js",
+    "test": "jest",
+    "build": "tsc",
+    "start": "node dist/src/index.js single",
+    "start:cluster": "node dist/src/index.js multi"
   },
   "devDependencies": {
     "@types/cors": "^2.8.9",
