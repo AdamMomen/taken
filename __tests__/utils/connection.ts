@@ -1,15 +1,15 @@
+import "reflect-metadata";
 import { createConnection, getConnection, Entity, BaseEntity } from "typeorm";
-const connectionConfig = require("../ormconfig.test.json");
 
 const connection = {
   create(entities: typeof BaseEntity[]) {
     return createConnection({
-      name: "default",
+      name: "test",
       type: "postgres",
       host: "localhost",
       port: 5432,
       username: "postgres",
-      password: "administrator98",
+      password: "Administrator98",
       database: "test",
       entities,
     });

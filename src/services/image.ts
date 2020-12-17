@@ -72,7 +72,6 @@ export const findImageById = async (id: string) => {
  * creates html template for the image
  */
 export const createImageTemplate = async (id: string) => {
-  console.log("it has been called");
   const found = await findImageById(id);
   if (found![0]) {
     const buffer = found![0].data;

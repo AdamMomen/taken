@@ -1,5 +1,6 @@
 import puppeteer, {
   BinaryScreenShotOptions,
+  Browser,
   DirectNavigationOptions,
   Page,
 } from "puppeteer";
@@ -13,9 +14,15 @@ import convertB64ToBuffer from "../utils/convertB64ToBuffer";
  * @method convert2Byte converts binary buffer to bytes
  */
 export class Snapshot {
-  static async createPage() {
-    const browser = await puppeteer.launch({ headless: true });
-    return await browser.newPage();
+  static browser: Browser | null;
+  static page: Page | null;
+
+  static async getPage() {
+    this.browser = this.browser
+      ? this.browser
+      : await puppeteer.launch({ headless: true });
+    this.page = this.page ? this.page : await this.browser.newPage();
+    return this.page;
   }
 
   /**
@@ -48,11 +55,11 @@ export class Snapshot {
    * @returns bytes buffer of the screenshooted image
    */
   static async capture(url: string, options: BinaryScreenShotOptions) {
-    const page = await this.createPage();
+    const page = await this.getPage();
     await this.goto(page, url, { waitUntil: "networkidle2" });
     const buffer = await page.screenshot(options);
     const bytes = await this.convert2Byte(buffer);
-
+    await page.close();
     return bytes;
   }
 }
