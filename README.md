@@ -8,8 +8,12 @@ This is a senior backend challenge for valiu's got talent hiring program in 48 h
 - Nodejs
 - Postgres
 - Typeorm
+- redis
+- BullMQ
 
 ### Getting Started
+
+- change connection settings in `typeorm.config.json` file located in root project directory
 
 ```bash
 npm install
@@ -33,12 +37,13 @@ npm run start:cluster
 yarn start:cluster
 ```
 
-- change connection settings in `typeorm.config.json` file located in root project directory
-
 ### How?
 
-- Uses puppeteer as core as headless driver driver for screenshoting
-- Saves the image in `bytea` type in the database
-- Converts back to `Base64` when displaying the image
+- Each request will be registered in redis job queue
+- Workers process and serve the job asynchronously from the queue
+- A workers is operating a squence of service:
+  - Image Capture: uses puppeteer as core as headless driver driver for screenshoting
+  - Image Save: uses Postgress database to save the image binary in `bytea`
+- Displaying the image in a html template on get request
 - Load test has been tested using [k6](www.k6.io) with 1500 virtual user requesting the server in the save time
-- Runs clustered pool of server workers makes sure our app is backed up
+- It could Run as of clustered pool of server workers ensuring our app is a bullet proof!

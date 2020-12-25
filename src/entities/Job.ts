@@ -7,6 +7,7 @@ import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 export enum Status {
   STARTED = "started",
   CANCELED = "cancelled",
+  PROGRESS = "in progress",
   DONE = "done",
 }
 @Entity()

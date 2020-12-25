@@ -37,5 +37,5 @@ export default async ({ expressApp, httpServer }: ServerTypes) => {
    * Worker Loader
    */
   await workerLoader();
-  Logger.info("👷 Workers ready");
+  Logger.info("👷 workers ready‍️");
 };

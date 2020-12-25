@@ -13,7 +13,7 @@ export const updateJobStatus = async (
     if (!id) throw new Error("missing job id");
     const foundJob = await Job.findOneOrFail({ id });
     foundJob.status = status;
-    status == Status.DONE ? (foundJob.screenshot = screenshot) : null;
+    foundJob.screenshot = screenshot;
     return await Job.save(foundJob);
   } catch (e) {
     Logger.error(e.message);

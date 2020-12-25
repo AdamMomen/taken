@@ -12,12 +12,11 @@ class ScreenshotWorker {
       const worker = new Worker(
         "websites",
         async (job) => {
-          const { data, id, progress } = job;
+          this.registerEvents(worker);
+          const { data } = job;
 
           //save image  image
           const { url, options } = data;
-
-          Logger.info("job data: ", data);
 
           /**
            * Takes url string and takes a screenshot of that website
@@ -32,7 +31,6 @@ class ScreenshotWorker {
           // get the saved image id
           const imageId = saved.images[0].id;
 
-          this.registerEvents(worker);
           return {
             screenshot: `${config.hostname}${config.api.prefix}/image?id=${imageId}`,
           };
@@ -42,6 +40,8 @@ class ScreenshotWorker {
             host: config.worker.host,
             port: config.worker.port,
           },
+          /** This is the number of concurrent workers in parralled */
+          concurrency: config.worker.concurrency,
         }
       );
     } catch (err) {
@@ -59,18 +59,23 @@ class ScreenshotWorker {
       async (job: Job, { screenshot }: { screenshot: string }) => {
         if (job.id) {
           const id = parseInt(job.id);
-          Logger.info(`Job id:${id}'s has finished, ${screenshot}%`);
           await updateJobStatus(Number(job.id), {
             status: Status.DONE,
             screenshot,
           });
+          Logger.info(`Job id:${id}'s finished! 👍`);
         }
       }
     );
   }
   private static onProgress(wokrer: Worker) {
-    wokrer.on("progress", async (job: Job, progress: number | object) => {
-      //TODO: add sockets to emit progress to the user
+    wokrer.on("progress", async (job: Job, screenshot: string) => {
+      if (job.id) {
+        await updateJobStatus(Number(job.id), {
+          status: Status.PROGRESS,
+          screenshot,
+        });
+      }
     });
   }
   private static onFail(worker: Worker) {
@@ -80,7 +85,7 @@ class ScreenshotWorker {
         try {
           if (job.id) {
             const id = parseInt(job.id);
-            Logger.info(`job id:${id} has fialed`);
+            Logger.info(`job id:${id}'s failed :(`);
             await updateJobStatus(id, {
               status: Status.DONE,
               screenshot,

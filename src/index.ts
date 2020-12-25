@@ -1,6 +1,6 @@
-import os from "os";
 import cluster from "cluster";
 import runApp from "./app";
+import config from "./config";
 import Logger from "./loaders/logger";
 
 /**
@@ -14,7 +14,7 @@ const main = async (singleCpu = false) => {
   }
 
   if (cluster.isMaster) {
-    const cpuCount = os.cpus().length;
+    const cpuCount = config.worker.concurrency;
     Logger.info(`⚒ Running ${cpuCount} Process`);
 
     for (let i = 0; i < cpuCount; i++) {
@@ -28,10 +28,10 @@ const main = async (singleCpu = false) => {
 const myArgs = process.argv.slice(2);
 
 switch (myArgs[0]) {
-  case "single":
+  case "--single-cpu":
     main(true).catch((err) => console.log(err));
     break;
-  case "multi":
+  case "--multi-cpu":
     main(false).catch((err) => console.log(err));
     break;
   default:

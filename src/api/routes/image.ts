@@ -1,12 +1,9 @@
 import { Request, Response, Router } from "express";
-import config from "../../config";
-import { createImageTemplate, saveImage } from "../../services";
-import { Snapshot } from "../../services/capturer";
-import errorHandler from "../../utils/errorHandler";
-import validateRequest from "../../utils/validateRequest";
-import Logger from "../../loaders/logger";
 import websiteQueue from "../../loaders/queue";
 import { createJob } from "../../models/job";
+import { createImageTemplate } from "../../services";
+import errorHandler from "../../utils/errorHandler";
+import validateRequest from "../../utils/validateRequest";
 const route = Router();
 
 export default (app: Router) => {
@@ -25,10 +22,15 @@ export default (app: Router) => {
       const { url, options } = validateRequest(req.body);
 
       const job = await createJob({ url });
-      await websiteQueue().add("website", { id: job.id, url, options });
 
+      /** add job to the queue in FIFO  (First In First Out) */
+      await websiteQueue().add("website", { id: job.id, url, options });
+      /** */
       res.json({
-        job,
+        job: {
+          id: job.id,
+          status: job.status,
+        },
       });
     } catch (e) {
       errorHandler(e, req, res);
@@ -55,9 +57,10 @@ export default (app: Router) => {
        * @param imageId  string
        * Takes the imageId and looks it in the database if found, it will convert it to base64 image data and parse in html content
        */
+
       const imageTemplate = await createImageTemplate(imageId);
 
-      /** Throws an errro if we couldn't find the image or there is a problme in the conversion to base64 string */
+      /** Throws an errro if we couldn't find the image or there is a problem in the conversion to base64 string */
       if (!imageTemplate) {
         res.status(404).send("image url not found! :(");
       }
