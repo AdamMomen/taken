@@ -2,7 +2,7 @@ import convertBufferToB64 from "../utils/convertBufferToB64";
 import { getImageTemplate } from "../utils/getHtmlTemplates";
 import { Image } from "../entities/Image";
 import { Website } from "../entities/Website";
-
+import Logger from "../loaders/logger";
 /**
  * @function saveImage
  * @param url
@@ -29,7 +29,8 @@ export const saveImage = async (url: string, buffer: Buffer) => {
     newSite.images = [image];
     return await Website.save(newSite);
   } catch (e) {
-    console.log(e);
+    Logger.error(e.message);
+    throw new Error(e);
   }
 };
 
@@ -40,17 +41,12 @@ export const saveImage = async (url: string, buffer: Buffer) => {
  * @returs Webstie[]
  */
 export const findWebisteByUrl = async (url: string) => {
-  try {
-    return await Website.find({
-      relations: ["images"],
-      take: 1,
-      where: { url },
-    });
-  } catch (e) {
-    //TODO: handle this error better
-    // idea, look for the error code and interpert the possible scinario
-    throw new Error(e);
-  }
+  return await Website.find({
+    relations: ["images"],
+    take: 1,
+    where: { url },
+    order: { id: "DESC" },
+  });
 };
 
 /**
@@ -59,11 +55,7 @@ export const findWebisteByUrl = async (url: string) => {
  * finds Image by it's id
  */
 export const findImageById = async (id: string) => {
-  try {
-    return await Image.find({ relations: ["website"], where: { id }, take: 1 });
-  } catch (e) {
-    console.log(e);
-  }
+  return await Image.find({ relations: ["website"], where: { id }, take: 1 });
 };
 
 /**
@@ -72,12 +64,15 @@ export const findImageById = async (id: string) => {
  * creates html template for the image
  */
 export const createImageTemplate = async (id: string) => {
-  const found = await findImageById(id);
-  if (found![0]) {
-    const buffer = found![0].data;
-    const websiteUrl = found![0].website.url;
-    const base64String = await convertBufferToB64(buffer);
-    return getImageTemplate(base64String, websiteUrl);
+  try {
+    const found = await findImageById(id);
+    if (found![0]) {
+      const buffer = found![0].data;
+      const websiteUrl = found![0].website.url;
+      const base64String = convertBufferToB64(buffer);
+      return getImageTemplate(base64String, websiteUrl);
+    }
+  } catch (e) {
+    throw new Error(e.message);
   }
-  return;
 };

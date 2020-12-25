@@ -2,7 +2,11 @@ import { Request, Response, Router } from "express";
 import config from "../../config";
 import { createImageTemplate, saveImage } from "../../services";
 import { Snapshot } from "../../services/capturer";
-import { BinaryScreenShotOptions } from "puppeteer";
+import errorHandler from "../../utils/errorHandler";
+import validateRequest from "../../utils/validateRequest";
+import Logger from "../../loaders/logger";
+import websiteQueue from "../../loaders/queue";
+import { createJob } from "../../models/job";
 const route = Router();
 
 export default (app: Router) => {
@@ -18,57 +22,16 @@ export default (app: Router) => {
   route.post("/capture", async (req: Request, res: Response) => {
     try {
       /** get the website url from request body **/
-      const { url, captureOptions } = req.body;
+      const { url, options } = validateRequest(req.body);
 
-      /** if the url is not provided throw an error **/
-      if (!url) {
-        throw Error("Please provide a url");
-      }
+      const job = await createJob({ url });
+      await websiteQueue().add("website", { id: job.id, url, options });
 
-      /** check if the url contains http or https identifiers **/
-      const valid = /(https?|http?)([^\s]+)/g.test(url);
-
-      /** Throw an error if it's not valid url */
-      if (!valid) {
-        throw Error(
-          "Please send valid url, maybe missing http:// or https://?"
-        );
-      }
-
-      /**
-       * Takes url string and takes a screenshot of that website
-       */
-      const binaryBuffer: Buffer = await Snapshot.capture(url, captureOptions);
-
-      /** Throws an error if we don't get the image buffer */
-      if (!binaryBuffer) {
-        throw Error(
-          "Couldn't capture the webiste for some reason, maybe it's an invalid url?"
-        );
-      }
-
-      /**
-       * @function saveImage
-       * Takes image Buffer converts it into @bytea type and stores it in the database
-       * @Param url String
-       * @Param options
-       */
-      const saved = await saveImage(url, binaryBuffer);
-
-      // if not saved throw the error
-      if (!saved) {
-        throw Error("couldn't save the image");
-      }
-      // get the saved image id
-      const imageId = saved.images[0].id;
-
-      // send the saved url of the image to to user
       res.json({
-        success: true,
-        url: `${config.hostname}${config.api.prefix}/image?id=${imageId}`,
+        job,
       });
     } catch (e) {
-      res.json({ success: false, message: e.message });
+      errorHandler(e, req, res);
     }
   });
 
@@ -102,7 +65,7 @@ export default (app: Router) => {
       /** send the html image template to the user **/
       res.send(imageTemplate);
     } catch (e) {
-      console.log(e);
+      errorHandler(e, req, res);
     }
   });
 };

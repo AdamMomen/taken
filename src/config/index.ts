@@ -13,4 +13,13 @@ export default {
     prefix: "/api",
   },
   hostname: process.env.HOSTNAME || "localhost:5555",
+  sockets: { path: "" },
+  queue: {
+    host: process.env.REDIS_HOST,
+    port: parseInt(process.env.REDIS_HOST as Number & undefined, 10) || 6379,
+  },
+  worker: {
+    host: process.env.REDIS_HOST,
+    port: parseInt(process.env.REDIS_PORT as Number & undefined, 10) || 6379,
+  },
 };

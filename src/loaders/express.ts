@@ -1,17 +1,11 @@
-import {
-  Application,
-  Response,
-  Request,
-  NextFunction,
-  urlencoded,
-  json,
-} from "express";
 import cors from "cors";
+import { json, Request, Response, urlencoded } from "express";
 import routes from "../api";
 import config from "../config";
-interface ExpressApp {
-  app: Application;
-}
+import errorHandler from "../utils/errorHandler";
+import { ExpressApp } from "@types";
+const ioclient = require("socket.io-client");
+import path from "path";
 
 export default ({ app }: ExpressApp) => {
   app.use(urlencoded({ extended: true }));
@@ -19,12 +13,15 @@ export default ({ app }: ExpressApp) => {
   app.enable("trust proxy");
   app.use(cors());
 
+  app.get("/", (_: Request, res: Response) => {
+    res.sendFile(path.join(__dirname, "../..", "/index.html"));
+  });
   /**
    * Status Health check
    * Method get
    * returns 200 status code
    */
-  app.get("/status", (req: Request, res: Response) => {
+  app.get("/status", (_: Request, res: Response) => {
     res.status(200).end();
   });
 
@@ -37,8 +34,5 @@ export default ({ app }: ExpressApp) => {
    * Error handling
    * returns the error's status code or general 500
    */
-  app.use((err: any, _: Request, res: Response, next: NextFunction) => {
-    res.status(err.status || 500);
-    if (err) next(err);
-  });
+  app.use(errorHandler);
 };
