@@ -10,8 +10,9 @@ This is a senior backend challenge for valiu's got talent hiring program in 48 h
 - Nodejs
 - Postgres
 - Typeorm
-- redis
+- Redis
 - BullMQ
+- SocketIO
 
 ### Getting Started
 
