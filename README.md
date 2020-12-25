@@ -1,5 +1,7 @@
 # website-screenshot-capturer
 
+<img src="./docs/demo.gif">
+
 This is a senior backend challenge for valiu's got talent hiring program in 48 hours
 
 ## Technologies Used
