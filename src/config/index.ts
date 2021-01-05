@@ -15,6 +15,7 @@ export default {
   hostname: process.env.HOSTNAME || "localhost:5555",
   sockets: { path: "" },
   queue: {
+    name: "websites",
     host: process.env.REDIS_HOST,
     port: parseInt(process.env.REDIS_HOST as Number & undefined, 10) || 6379,
   },

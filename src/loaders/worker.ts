@@ -10,7 +10,7 @@ class ScreenshotWorker {
   static start() {
     try {
       const worker = new Worker(
-        "websites",
+        config.queue.name,
         async (job) => {
           this.registerEvents(worker);
           const { data } = job;

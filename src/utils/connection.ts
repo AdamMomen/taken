@@ -1,25 +1,25 @@
-import { createConnection, getConnection } from "typeorm";
+import { Connection, createConnection, getConnection } from "typeorm";
 
 const connection = {
   /**
    * creates Connection
    */
-  async create() {
-    await createConnection();
+  async create(connectionName: string = "default"): Promise<Connection> {
+    return await createConnection(connectionName);
   },
 
   /**
    * Closes Connection
    */
-  async close() {
+  async close(connectionName: string = "default"): Promise<void> {
     await getConnection().close();
   },
 
   /**
    * It deletes all the tables from the database
    */
-  async clear() {
-    const connection = getConnection();
+  async clear(connectionName: string = "default"): Promise<void> {
+    const connection = getConnection(connectionName);
     const entities = connection.entityMetadatas;
 
     entities.forEach(async (entity) => {
