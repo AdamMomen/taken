@@ -1,4 +1,2 @@
-jest.setTimeout(22000);
-global.__ENV = {
-  ...process.env,
-};
+jest.setTimeout(32000);
+global.__ENV = {...process.env };

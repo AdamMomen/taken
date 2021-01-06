@@ -21,15 +21,20 @@ export default (app: Router) => {
       /** get the website url from request body **/
       const { url, options } = validateRequest(req.body);
 
-      const job = await createJob({ url });
+      const { id: jobId, status: jobStatus } = await createJob({ url });
 
       /** add job to the queue in FIFO  (First In First Out) */
-      await websiteQueue().add("website", { id: job.id, url, options });
+      const job = await websiteQueue().add("website", {
+        id: jobId,
+        url,
+        options,
+      });
+
       /** */
       res.json({
         job: {
-          id: job.id,
-          status: job.status,
+          id: job.data.id,
+          status: jobStatus,
         },
       });
     } catch (e) {
