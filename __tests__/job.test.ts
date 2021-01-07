@@ -12,7 +12,6 @@ describe("Queing jobs and assinging workers", () => {
     });
 
     const job = await queue.add("test_queue", { url: "testscreenshot.com" });
-    console.log(job);
     expect(job.data.url).toBe("testscreenshot.com");
   });
 

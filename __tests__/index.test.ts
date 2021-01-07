@@ -5,11 +5,12 @@ import { Website } from "../src/entities/Website";
 import connection from "../src/utils/connection";
 import getMockImageData from "./utils/getMockImageData";
 
-let conn: Connection;
-beforeAll(async () => {
-  conn = await connection.create("test");
-});
 describe("Saving an image", () => {
+  let conn: Connection;
+  beforeAll(async () => {
+    conn = await connection.create("test");
+  });
+
   it("creates and save an image", async () => {
     const image = new Image();
     const url = "testwebsite.com";
