@@ -15,7 +15,7 @@
 #   build-and-test:
 #     jobs:
 #       - build-and-test
-version: 2
+version: 2.1
 jobs:
   build:
     # Primary container image where all commands run
@@ -35,6 +35,7 @@ jobs:
           username: mydockerhub-user
           password: $DOCKERHUB_PASSWORD # context / project UI env-var reference
 
+      - image: circle/postgress
     steps:
       - checkout
       - run: sudo apt-get update
