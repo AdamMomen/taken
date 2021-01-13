@@ -53,3 +53,8 @@ jobs:
           psql \
           -d $TEST_DATABASE_URL \
           -c "SELECT * from test"
+
+workflows:
+  My-workflow:
+    jobs:
+      - build
