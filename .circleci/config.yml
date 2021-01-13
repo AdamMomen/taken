@@ -15,7 +15,7 @@
 #   build-and-test:
 #     jobs:
 #       - build-and-test
-version: 2.1
+version: 2
 jobs:
   build:
     # Primary container image where all commands run
