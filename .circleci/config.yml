@@ -44,7 +44,6 @@ jobs:
       - checkout
       - run: sudo apt-get update
       - run: sudo apt-get install postgresql-client-9.6
-      - run: sudo apt-get install redis-server-9.6
       - run: whoami
       - run: sudo service redis-server start
       # |
