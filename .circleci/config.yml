@@ -19,7 +19,9 @@ version: 2
 jobs:
   build:
     # Primary container image where all commands run
-
+    context:
+      - build-env-vars
+      - docker-hub-creds
     docker:
       - image: circleci/python:3.6.2-stretch-browsers
         auth:
