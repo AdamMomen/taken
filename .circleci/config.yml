@@ -46,9 +46,7 @@ jobs:
       - run: sudo apt-get install postgresql-client-9.6
       - run: whoami
       - run: sudo apt-get install redis-tools
-      - run: |
-          redis-cli -h redis-ubuntu \
-          redis-ubuntu:6379> ping
+      - run: redis-cli -c "ping"
 
       # |
       #     psql \
