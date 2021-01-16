@@ -17,7 +17,7 @@
 #       - build-and-test
 version: 2
 jobs:
-  build:
+  build-and-test:
     # Primary container image where all commands run
 
     docker:
@@ -39,14 +39,14 @@ jobs:
         auth:
           username: $DOCKERHUB_USERNAME
           password: $DOCKERHUB_PASSWORD # context / project UI env-var reference
-
+    executor:
+      name: node/default
     steps:
       - checkout
-      - run: sudo apt-get update
+      - run: apt-get update
       - run: sudo apt-get install postgresql-client-9.6
-      - run: whoami
-      - run: sudo apt-get install redis-tools
-      - run: redis-cli -c "ping"
+      - run: yarn install
+      - run: yarn test
 
       # |
       #     psql \
