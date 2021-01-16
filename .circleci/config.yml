@@ -19,24 +19,22 @@ version: 2
 jobs:
   build:
     # Primary container image where all commands run
-    # context:
-    #   - build-env-vars
-    #   - docker-hub-creds
+
     docker:
       - image: circleci/python:3.6.2-stretch-browsers
         auth:
-          username: adammomen
+          username: mydockerhub-user
           password: $DOCKERHUB_PASSWORD # context / project UI env-var reference
         environment:
           TEST_DATABASE_URL: postgresql://root@localhost/circle_test
 
       # Service container image
+
       - image: circleci/postgres:9.6.5-alpine-ram
         auth:
-          username: adammomen
+          username: mydockerhub-user
           password: $DOCKERHUB_PASSWORD # context / project UI env-var reference
 
-      - image: circle/postgress
     steps:
       - checkout
       - run: sudo apt-get update
