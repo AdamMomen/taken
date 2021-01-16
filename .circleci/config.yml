@@ -16,6 +16,9 @@
 #     jobs:
 #       - build-and-test
 version: 2.1
+orbs:
+  node: circleci/node@1.1.6
+
 jobs:
   build-and-test:
     # Primary container image where all commands run
