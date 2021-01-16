@@ -15,44 +15,77 @@
 #   build-and-test:
 #     jobs:
 #       - build-and-test
-orbs:
-  node: circleci/node@4.0.0
+# orbs:
+# node: circleci/node@4.0.0
+
+# version: 2.1
+# jobs:
+#   build:
+#     docker:
+#       - image: circleci/python:3.6.2-stretch-browsers
+#         auth:
+#           username: $DOCKERHUB_USERNAME
+#           password: $DOCKERHUB_PASSWORD # context / project UI env-var reference
+#         environment:
+#           TEST_DATABASE_URL: postgresql://root@localhost/circle_test
+
+#       # Service container image
+#       - image: circleci/postgres:9.6.5-alpine-ram
+#         auth:
+#           username: $DOCKERHUB_USERNAME
+#           password: $DOCKERHUB_PASSWORD # context / project UI env-var reference
+
+#       - image: circleci/redis:6.2-rc2-alpine3.12
+#         auth:
+#           username: $DOCKERHUB_USERNAME
+#           password: $DOCKERHUB_PASSWORD # context / project UI env-var reference
+#     steps:
+#       - run: checkout
+
+#   test:
+#     executor:
+#       name: node/default
+
+#     steps:
+#       - checkout
+#       - node/with-cache:
+#           - run: yarn install
+#           - run: yarn run test
+
+# workflows:
+#   build-and-test:
+#     jobs:
+#       - build
+#       - test
 
 version: 2.1
+orbs:
+  node: circleci/node@1.1.6
 jobs:
   build:
     docker:
-      - image: circleci/python:3.6.2-stretch-browsers
-        auth:
-          username: $DOCKERHUB_USERNAME
-          password: $DOCKERHUB_PASSWORD # context / project UI env-var reference
-        environment:
-          TEST_DATABASE_URL: postgresql://root@localhost/circle_test
-
-      # Service container image
-      - image: circleci/postgres:9.6.5-alpine-ram
-        auth:
-          username: $DOCKERHUB_USERNAME
-          password: $DOCKERHUB_PASSWORD # context / project UI env-var reference
-
-      - image: circleci/redis:6.2-rc2-alpine3.12
-        auth:
-          username: $DOCKERHUB_USERNAME
-          password: $DOCKERHUB_PASSWORD # context / project UI env-var reference
-    steps:
-      - run: checkout
-      - run: apt-get update
-
-  test:
-    executor:
-      name: node/default
-
+      - image: circleci/node:latest
     steps:
       - checkout
       - node/with-cache:
-          - run: yarn install
-          - run: yarn run test
-
+          steps:
+            - run: echo "yarn installing"
+            - run: yarn
+            - run: CI=true yarn run build
+  test:
+    docker:
+      - image: circleci/node:latest
+        environment:
+          DB_CONNECTION: postgresql://root@postgres/circle_test
+      - image: circleci/postgres
+      - image: circleci/redis
+    steps:
+      - checkout
+      - node/with-cache:
+          steps:
+            - run: echo "testing running..."
+            - run: yarn
+            - run: npm test
 workflows:
   build-and-test:
     jobs:
