@@ -12,7 +12,7 @@ const connection = {
    * Closes Connection
    */
   async close(connectionName: string = "default"): Promise<void> {
-    await getConnection().close();
+    await getConnection(connectionName).close();
   },
 
   /**
