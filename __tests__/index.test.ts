@@ -7,6 +7,7 @@ import getMockImageData from "./utils/getMockImageData";
 
 describe("Saving an image", () => {
   let conn: Connection;
+
   beforeAll(async () => {
     conn = await connection.create("test");
   });
