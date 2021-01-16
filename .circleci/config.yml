@@ -17,11 +17,10 @@
 #       - build-and-test
 version: 2.1
 orbs:
-  node: circleci/node@1.1.6
+  node: circleci/node@3.0.0
 
 jobs:
-  build-and-test:
-    # Primary container image where all commands run
+  build:
     docker:
       - image: circleci/python:3.6.2-stretch-browsers
         auth:
@@ -41,29 +40,22 @@ jobs:
         auth:
           username: $DOCKERHUB_USERNAME
           password: $DOCKERHUB_PASSWORD # context / project UI env-var reference
+    steps:
+      - run: checkout
+      - run: apt-get update
+
+  test:
     executor:
       name: node/default
+
     steps:
       - checkout
-      - run: apt-get update
-      # - run: sudo apt-get install postgresql-client-9.6`
       - node/with-cache:
           - run: yarn install
           - run: yarn run test
 
-      # |
-      #     psql \
-      #     -d $TEST_DATABASE_URL \
-      #     -c "CREATE TABLE test (name char(25));"
-      # - run: |
-      #     psql \
-      #     -d $TEST_DATABASE_URL \
-      #     -c "INSERT INTO test VALUES ('John'), ('Joanna'), ('Jennifer');"
-      # - run: |
-      #     psql \
-      #     -d $TEST_DATABASE_URL \
-      #     -c "SELECT * from test"
 workflows:
   build-and-test:
     jobs:
-      - build-and-test
+      - build
+      - test
