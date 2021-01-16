@@ -35,20 +35,27 @@ jobs:
           username: $DOCKERHUB_USERNAME
           password: $DOCKERHUB_PASSWORD # context / project UI env-var reference
 
+      - image: circleci/redis:6.2-rc2-alpine3.12
+        auth:
+          username: $DOCKERHUB_USERNAME
+          password: $DOCKERHUB_PASSWORD # context / project UI env-var reference
+
     steps:
       - checkout
       - run: sudo apt-get update
       - run: sudo apt-get install postgresql-client-9.6
+      - run: sudo apt-get install redis-server-9.6
       - run: whoami
-      - run: |
-          psql \
-          -d $TEST_DATABASE_URL \
-          -c "CREATE TABLE test (name char(25));"
-      - run: |
-          psql \
-          -d $TEST_DATABASE_URL \
-          -c "INSERT INTO test VALUES ('John'), ('Joanna'), ('Jennifer');"
-      - run: |
-          psql \
-          -d $TEST_DATABASE_URL \
-          -c "SELECT * from test"
+      - run: sudo service redis-server start
+      # |
+      #     psql \
+      #     -d $TEST_DATABASE_URL \
+      #     -c "CREATE TABLE test (name char(25));"
+      # - run: |
+      #     psql \
+      #     -d $TEST_DATABASE_URL \
+      #     -c "INSERT INTO test VALUES ('John'), ('Joanna'), ('Jennifer');"
+      # - run: |
+      #     psql \
+      #     -d $TEST_DATABASE_URL \
+      #     -c "SELECT * from test"
