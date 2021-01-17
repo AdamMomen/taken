@@ -7,7 +7,7 @@ jobs:
       - image: circleci/node:latest
       - image: circleci/postgres
         environment:
-          DB_CONNECTION: postgresql://root@postgres/circle_test
+          # DB_CONNECTION: postgresql://root@postgres/circle_test
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: $POSTGRES_TEST_PASS
           POSTGRES_DB: $POSTGRES_TEST_DB
