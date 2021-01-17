@@ -28,6 +28,18 @@ jobs:
           name: Wait for redis
           command: dockerize -wait tcp://localhost:6379 -timeout 1m
 
+      - run:
+          name: intall postgres clint and create database
+          command: sudo apt-get install postgres9.6
+
+      - run: sudo apt-get update
+      - run: sudo apt-get install postgresql-client-9.6
+      - run: whoami
+      - run: |
+          psql \
+          -d $TEST_DATABASE_URL \
+          -c "CREATE DATABASE $POSTGRES_TEST_DB ;"
+
       - node/with-cache:
           steps:
             - run: echo "testing running..."
