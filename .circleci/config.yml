@@ -5,13 +5,16 @@ jobs:
   build-and-test:
     docker:
       - image: circleci/node:latest
+        environment:
+          POSTGRES_TEST_PASS: $POSTGRES_TEST_PASS
+          POSTGRES_TEST_DB: $POSTGRES_TEST_DB
 
       - image: circleci/postgres
         environment:
           DB_CONNECTION: postgresql://root@postgres/circle_test
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: $POSTGRES_TEST_PASS
-          POSTGRES_DB: $POSTGRES_TEST_DB
+          # POSTGRES_DB: $POSTGRES_TEST_DB
 
       - image: circleci/redis
     steps:
