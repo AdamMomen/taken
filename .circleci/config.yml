@@ -25,18 +25,14 @@ jobs:
           command: dockerize -wait tcp://localhost:5432 -timeout 1m
 
       - run:
-          name: Wait for redis
+          name: Wait for redis and postres
           command: dockerize -wait tcp://localhost:6379 -timeout 1m
 
       - run:
-          name: intall postgres clint and create database
-          command: sudo apt-get install postgres9.6
+          name: install postgres client
+          command: sudo apt-get update && sudo apt-get install postgresql-client-9.6
 
-      - run: sudo apt-get update
-      - run: sudo apt-get install postgresql-client-9.6
-      - run: whoami
-      - run: |
-          psql \
+      - run: psql \
           -d $TEST_DATABASE_URL \
           -c "CREATE DATABASE $POSTGRES_TEST_DB ;"
 
