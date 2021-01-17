@@ -77,6 +77,8 @@ jobs:
       - image: circleci/node:latest
         environment:
           DB_CONNECTION: postgresql://root@postgres/circle_test
+          POSTGRES_HOST_AUTH_METHOD: trust
+
       - image: circleci/postgres
       - image: circleci/redis
     steps:
