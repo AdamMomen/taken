@@ -1,7 +1,11 @@
 import dotenv from "dotenv";
 import os from "os";
 process.env.NODE_ENV = process.env.NODE_ENV || "development";
-dotenv.config();
+const envFound = dotenv.config();
+
+if (envFound.error) {
+  throw new Error("Couldn't find .env file");
+}
 
 export default {
   port: parseInt(process.env.PORT as Number & string, 10),
