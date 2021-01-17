@@ -12,7 +12,7 @@ jobs:
           DB_CONNECTION: postgresql://root@postgres/circle_test
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: $POSTGRES_TEST_PASS
-          POSTGRES_DB: circle_TEST
+          POSTGRES_DB: circle_test
 
       - image: circleci/redis
     steps:
