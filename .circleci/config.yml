@@ -78,6 +78,8 @@ jobs:
         environment:
           DB_CONNECTION: postgresql://root@postgres/circle_test
           POSTGRES_HOST_AUTH_METHOD: trust
+          POSTGRES_USER: postgres
+          POSTGRES_DB: test
 
       - image: circleci/postgres
       - image: circleci/redis
@@ -87,7 +89,7 @@ jobs:
           steps:
             - run: echo "testing running..."
             - run: yarn
-            - run: npm test
+            - run: yarn test
 workflows:
   build-and-test:
     jobs:
