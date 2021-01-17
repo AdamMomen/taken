@@ -27,8 +27,10 @@ jobs:
           command: dockerize -wait tcp://localhost:5432 -timeout 1m
 
       - run:
-          name: Wait for redis and postres
+          name: Wait for redis
           command: dockerize -wait tcp://localhost:6379 -timeout 1m
+
+      - run: touch .env && echo \$POSTGRES_TEST_PASS=$POSTGRES_TEST_PASS > .env
 
       # - run:
       #     name: install postgres client
