@@ -7,7 +7,7 @@ jobs:
       - image: circleci/node:latest
       - image: circleci/postgres
         environment:
-          # DB_CONNECTION: postgresql://root@postgres/circle_test
+          DB_CONNECTION: postgresql://root@postgres/circle_test
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: $POSTGRES_TEST_PASS
           POSTGRES_DB: $POSTGRES_TEST_DB
@@ -33,7 +33,7 @@ jobs:
           command: sudo apt-get update && sudo apt-get install postgresql-client-9.6
 
       - run: psql \
-          -d $TEST_DATABASE_URL \
+          -d $DB_CONNETION \
           -c "CREATE DATABASE $POSTGRES_TEST_DB ;"
 
       - node/with-cache:
