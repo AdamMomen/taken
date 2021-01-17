@@ -33,7 +33,7 @@ jobs:
           command: sudo apt-get update && sudo apt-get install postgresql-client-9.6
 
       - run: psql \
-          -d $DB_CONNETION \
+          -d $DB_CONNECTION \
           -c "CREATE DATABASE $POSTGRES_TEST_DB ;"
 
       - node/with-cache:
