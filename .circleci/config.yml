@@ -21,8 +21,13 @@ jobs:
           environment:
             DOCKERIZE_VERSION: v0.3.0
       - run:
-          name: Wait for db
+          name: Wait for postgres
           command: dockerize -wait tcp://localhost:5432 -timeout 1m
+
+      - run:
+          name: Wait for redis
+          command: dockerize -wait tcp://localhost:6379 -timeout 1m
+
       - node/with-cache:
           steps:
             - run: echo "testing running..."
