@@ -1,8 +1,8 @@
-# website-screenshot-capturer
+# Taken 📷
 
 <img src="./docs/demo.gif">
 
-Website screenshot capturer microservice which takes the url as input and provide the image of the website. An event driven arthitecture is used to handle up a load of 1k requests per second.
+Taken is a Website screenshot taker which takes the url as input and provide the image of the website. An event driven arthitecture is used to handle up a load of 1k requests per second.
 
 ## Technologies Used
 
@@ -16,7 +16,7 @@ Website screenshot capturer microservice which takes the url as input and provid
 
 ### Getting Started
 
-- change connection settings in `typeorm.config.json` file located in root project directory
+- Change connection settings in `typeorm.config.json` file located in root project directory
 
 ```bash
 npm install
